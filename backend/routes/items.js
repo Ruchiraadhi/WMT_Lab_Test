@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
 // POST create item 
 
 router.post('/', async (req, res) => { 
+    console.log('📝 POST /items - Request body:', req.body);
     const item = new Item({ 
         name: req.body.name, 
         description: req.body.description, 
@@ -22,8 +23,10 @@ router.post('/', async (req, res) => {
     }); 
     try { 
         const newItem = await item.save(); 
+        console.log('✅ Item saved:', newItem);
         res.status(201).json(newItem); 
     } catch (err) { 
+        console.error('❌ Error saving item:', err.message);
         res.status(400).json({ message: err.message }); 
     } 
 }); 
@@ -49,5 +52,3 @@ router.put('/:id', async (req, res) => {
 }); 
 
 module.exports = router;
-
-module.exports = router
