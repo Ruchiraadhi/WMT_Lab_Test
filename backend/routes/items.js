@@ -20,6 +20,7 @@ router.post('/', async (req, res) => {
         name: req.body.name, 
         description: req.body.description, 
         price: req.body.price 
+        serialNo: req.body.serialNo
     }); 
     try { 
         const newItem = await item.save(); 

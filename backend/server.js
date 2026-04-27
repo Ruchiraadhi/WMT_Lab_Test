@@ -16,9 +16,24 @@ if (!mongoUri) {
   process.exit(1);
 }
 
-mongoose.connect(mongoUri, { connectTimeoutMS: 5000, serverSelectionTimeoutMS: 5000 })
+mongoose.connect(mongoUri, {
+  connectTimeoutMS: 10000,
+  serverSelectionTimeoutMS: 10000,
+  socketTimeoutMS: 45000,
+  retryWrites: true,
+  maxPoolSize: 10,
+  minPoolSize: 2
+})
   .then(() => console.log('✅ MongoDB connected successfully'))
-  .catch(err => console.error('❌ MongoDB connection error:', err.message));
+  .catch(err => {
+    console.error('❌ MongoDB connection error:', err.message);
+    console.error('Details:', err);
+    console.log('\n⚠️  Tips to fix MongoDB Atlas connection:');
+    console.log('1. Verify your username/password in .env');
+    console.log('2. Whitelist your IP in MongoDB Atlas (0.0.0.0/0 for any IP)');
+    console.log('3. Check if your cluster is active');
+    console.log('4. Verify your network connectivity');
+  });
 
 // Health check endpoint
 app.get('/health', (req, res) => {

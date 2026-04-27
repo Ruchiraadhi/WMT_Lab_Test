@@ -5,14 +5,16 @@ export default function ItemForm({ onItemAdded }) {
     const [name, setName] = useState(''); 
     const [description, setDescription] = useState(''); 
     const [price, setPrice] = useState(''); 
+    const [serialNo, setSerialNo] = useState('');
 
     const handleSubmit = async (e) => { 
         e.preventDefault(); 
         try {
-            await createItem({ name, description, price }); 
+            await createItem({ name, description, price, serialNo }); 
             setName(''); 
             setDescription(''); 
             setPrice(''); 
+            setSerialNo('');
             onItemAdded(); 
         } catch (err) {
             console.error('Error creating item:', err);
@@ -51,6 +53,15 @@ export default function ItemForm({ onItemAdded }) {
                     style={{ width: '100%', padding: '0.5rem' }}
                 />
             </div>
+            <div style={{ marginBottom: '1rem' }}>
+    <input
+        placeholder="Serial No"
+        value={serialNo}
+        onChange={e => setSerialNo(e.target.value)}
+        required
+        style={{ width: '100%', padding: '0.5rem' }}
+    />
+</div>
             <button type="submit" style={{ padding: '0.5rem 1rem', cursor: 'pointer' }}>Add Item</button> 
         </form>
     );
